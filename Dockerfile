@@ -1,23 +1,72 @@
+# -----------------------------------------------------------------
+#
+#    NAME
+#      PowerMaster+ Docker File
+#
+#    DESCRIPTION
+#      PowerMaster+ Docker File
+#
+#    AUTHOR:
+#      rcitton@gmail.com 
+#
+#    NOTES
+#
+#    MODIFIED   (MM/DD/YY)
+#    rcitton     03/02/24 - creation
+#
+# -----------------------------------------------------------------
+
+# Pull base image
+# ---------------
 FROM debian:bullseye-slim
 
-WORKDIR /opt/pmasterp
+#
+# Argument Variables
+# ---------------------
+ARG PMASTERP_ZIP
 
+
+# Maintainer
+# ----------
+MAINTAINER Ruggero Citton <rcitton@gmail.com>
+
+
+# Setup Listening Ports
+#----------------------
 EXPOSE 3052/tcp
 EXPOSE 3052/udp
 EXPOSE 53568/tcp
 EXPOSE 162/udp
 EXPOSE 53566/udp
 
-# Start
-CMD ["/bin/bash","/opt/pmasterp/start.sh"] 
+
+# Setup workdir
+#--------------
+WORKDIR /opt/pmasterp
+
 
 # Install dependencies
-RUN apt update && apt install -y apt-utils curl unzip procps libusb-1.0-0 usbutils
-RUN ln -s /opt/pmasterp/data/pmasterpd /etc/init.d/pmasterpd 
+#---------------------
+RUN apt update && apt install -y apt-utils unzip procps libusb-1.0-0 usbutils
 
-# Download PowerMaster from powerwalker.com
-RUN curl -s https://powerwalker.com/wp-content/uploads/2022/01/pmp105_linux64.zip --output pmp105_linux64.zip 
 
 # Add files from repository
+#--------------------------
+COPY "$PMASTERP_ZIP" ./pmasterp_linux64.zip
 COPY response.varfile .
 COPY start.sh .
+
+
+# Set prompt & hostname
+RUN echo 'export PS1="[⚡ \e[0;34m\h\e[0m \w]# "' >> /root/.bashrc && \
+    echo "pmasterp" > /etc/hostname
+
+
+# Start Command
+#--------------
+CMD ["/bin/bash","/opt/pmasterp/start.sh"]
+
+
+
+
+
