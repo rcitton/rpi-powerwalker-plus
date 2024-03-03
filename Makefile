@@ -76,9 +76,9 @@ setup: ## --> Setup Powerwalker+
 	--privileged rpi-powerwalker-plus:latest
 	@echo "Setup in progress, please wait..."
 	sleep 20
-	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
-	@echo "$(COLOUR_GREEN)Connect http://172.17.0.1:3052/local/login $(COLOUR_END)"
-	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)Connect http://localhost:3052/local $(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
 
 start: ## --> Start Powerwalker+
 	@echo "$(COLOUR_GREEN)--------------------------------------$(COLOUR_END)"
@@ -87,9 +87,9 @@ start: ## --> Start Powerwalker+
 	docker start powermaster
 	@echo "Sleep 5 secs..."
 	sleep 5
-	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
-	@echo "$(COLOUR_GREEN)Connect http://172.17.0.1:3052/local/login $(COLOUR_END)"
-	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)Connect http://localhost:3052/local $(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
 
 stop: ## --> Stop Powerwalker+
 	@echo "$(COLOUR_GREEN)-------------------------------------$(COLOUR_END)"
