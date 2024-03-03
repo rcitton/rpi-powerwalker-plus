@@ -20,7 +20,7 @@
 
 # PowerMaster+ zip file
 #------------------------------
-PMASTERP_ZIP=pmp105_linux64.zip
+PMASTERP_ZIP=pmp122_linux64.zip
 
 
 ###########################
@@ -49,6 +49,10 @@ build: ## --> Build Powerwalker+
 	@echo "$(COLOUR_YELLOW)--------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_YELLOW)Build PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_YELLOW)--------------------------------------$(COLOUR_END)"
+ifeq (,$(wildcard $(PMASTERP_ZIP)))
+	@echo "$(COLOUR_RED)Missing required $(PMASTERP_ZIP) $(COLOUR_END)"
+	exit 1
+endif
 	sudo mkdir -p /opt/pmasterp
 	docker build \
 	--force-rm=true \
@@ -70,6 +74,8 @@ setup: ## --> Setup Powerwalker+
 	-p 53566:53566/udp \
 	-v /opt/pmasterp:/opt/pmasterp/data \
 	--privileged rpi-powerwalker-plus:latest
+	@echo "Setup in progress, please wait..."
+	sleep 20
 	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)Connect http://172.17.0.1:3052/local/login $(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
@@ -79,6 +85,8 @@ start: ## --> Start Powerwalker+
 	@echo "$(COLOUR_GREEN)Start PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)--------------------------------------$(COLOUR_END)"
 	docker start powermaster
+	@echo "Sleep 5 secs..."
+	sleep 5
 	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)Connect http://172.17.0.1:3052/local/login $(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
