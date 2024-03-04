@@ -40,6 +40,24 @@ PowerMaster+ Docker container setup is done issuing:
 
 later you can browse to [http://localhost:3052/local](http://localhost:3052/local)
 
+## Stop PowerMaster+ Docker container
+
+You can stop PowerMaster+ Docker container issuing:
+
+```make stop``` 
+
+## Start PowerMaster+ Docker container
+
+Once built You can start PowerMaster+ Docker container issuing:
+
+```make start``` 
+
+## Cleanup PowerMaster+ Docker image & container
+
+You can cleanup PowerMaster+ Docker image & container issuing:
+
+```make cleanup``` 
+
 ## "Development" and Testing
 
 ### Connecting to the container
