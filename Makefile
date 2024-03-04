@@ -47,7 +47,7 @@ help:
 
 all: build setup ## ✅ Build&Setup Powerwalker+
 
-build: ## 🏗️ ️Build Powerwalker+ image$container
+build: ## 🏗️ ️Build Powerwalker+ image&container
 	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_YELLOW)🏗️ Build PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
