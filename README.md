@@ -23,14 +23,16 @@ Before to start check and in case change the Makefile entry:
 
 The Makefile is offering following entrypoints:
 
-    all         -->  Build&Setup  Powerwalker+  image&container
-    build       -->  Build        Powerwalker+  image
-    setup       -->  Setup        Powerwalker+  container
-    start       -->  Start        Powerwalker+  container
-    stop        -->  Stop         Powerwalker+  container
-    connect     -->  Connect      Powerwalker+  container
-    cleanup     -->  Cleanup      Powerwalker+  container&image
-    imagedebug  -->  Start        Powerwalker+  (debug-purpose)
+    all      ✅  Build&Setup  Powerwalker+  
+    build    🏗️  Build        Powerwalker+  image&container
+    connect  🖧  Connect      Powerwalker+  container
+    cleanup  🧹  Cleanup      Powerwalker+  container&image
+    setup    🔧  Setup        Powerwalker+  container
+    start    🚀  Start        Powerwalker+  container
+    status   🔎  Status       Powerwalker+  container
+    stop     🛑  Stop         Powerwalker+  container
+    debug    🐞  Debug        Powerwalker+  (debug-purpose)
+    logs     📜  Logs         Powerwalker+  container
 
 ## Setup and usage
 
