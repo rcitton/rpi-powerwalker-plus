@@ -68,10 +68,16 @@ cleanup: ## 🧹 Cleanup Powerwalker+ container&image
 	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)🧹 Cleanup PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
-	-docker stop powermaster
-	-docker rm powermaster
-	-docker rmi rpi-powerwalker-plus:latest
-	sudo rm -fr /opt/pmasterp
+	@read -p "Are you sure? [y/N] " ans && ans=$${ans:-N} ; \
+    if [ $${ans} = y ] || [ $${ans} = Y ]; then \
+        printf "" ; \
+    else \
+        exit 1 ; \
+    fi
+	@-docker stop powermaster
+	@-docker rm powermaster
+	@-docker rmi rpi-powerwalker-plus:latest
+	@sudo rm -fr /opt/pmasterp
 
 setup: ## 🔧 Setup Powerwalker+ container
 	@echo "$(COLOUR_BLUE)-----------------------------------------$(COLOUR_END)"
