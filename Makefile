@@ -45,9 +45,9 @@ help:
 	| sed -n 's/^\(.*\): \(.*\)##\(.*\)/\1\3/p' \
 	| column -t  -s ' '
 
-all: build setup
+all: build setup ## ✅ Build&Setup Powerwalker+
 
-build: ## --> Build Powerwalker+ image
+build: ## 🏗️ ️Build Powerwalker+ image$container
 	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_YELLOW)🏗️ Build PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
@@ -58,7 +58,22 @@ build: ## --> Build Powerwalker+ image
 	--tag rpi-powerwalker-plus:latest \
 	-f Dockerfile .
 
-setup: ## --> Setup Powerwalker+ container
+connect: ## 🖧 Connect Powerwalker+ container
+	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)🖧 Connect PowerMaster+ Docker container...$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
+	@docker exec -it powermaster /bin/bash
+
+cleanup: ## 🧹 Cleanup Powerwalker+ container&image
+	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)🧹 Cleanup PowerMaster+ Docker container...$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
+	-docker stop powermaster
+	-docker rm powermaster
+	-docker rmi rpi-powerwalker-plus:latest
+	sudo rm -fr /opt/pmasterp
+
+setup: ## 🔧 Setup Powerwalker+ container
 	@echo "$(COLOUR_BLUE)-----------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_BLUE)🔧 Setup PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_BLUE)-----------------------------------------$(COLOUR_END)"
@@ -78,7 +93,7 @@ setup: ## --> Setup Powerwalker+ container
 	@echo "$(COLOUR_GREEN)Connect http://localhost:3052/local $(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
 
-start: ## --> Start Powerwalker+ container
+start: ## 🚀 Start Powerwalker+ container
 	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)🚀 Starting PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
@@ -89,32 +104,29 @@ start: ## --> Start Powerwalker+ container
 	@echo "$(COLOUR_GREEN)Connect http://localhost:3052/local $(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
 
-stop: ## --> Stop Powerwalker+ container
+status: ## 🔎 Status Powerwalker+ container
+	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)🔎 Status PowerMaster+ Docker container...$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
+	@docker ps -f name=powermaster --format '{{.Status}}'
+
+stop: ## 🛑 Stop Powerwalker+ container
 	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)🛑 Stopping PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
 	@docker stop powermaster
 
-connect: ## --> Connect Powerwalker+ container
-	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
-	@echo "$(COLOUR_GREEN)🖧 Connect PowerMaster+ Docker container...$(COLOUR_END)"
-	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
-	@docker exec -it powermaster /bin/bash
-
-cleanup: ## --> Cleanup Powerwalker+ container&image
-	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
-	@echo "$(COLOUR_GREEN)🧹 Cleanup PowerMaster+ Docker container...$(COLOUR_END)"
-	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
-	-docker stop powermaster
-	-docker rm powermaster
-	-docker rmi rpi-powerwalker-plus:latest
-	sudo rm -fr /opt/pmasterp
-
-imagedebug: ## --> Start Powerwalker+ (debug-purpose)
+imagedebug: ## 🐞 Start Powerwalker+ (debug-purpose)
 	@echo "$(COLOUR_RED)------------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_RED)🐞 Imagedebug PowerMaster+ Docker image...$(COLOUR_END)"
 	@echo "$(COLOUR_RED)------------------------------------------$(COLOUR_END)"
 	docker run -it --entrypoint /bin/bash rpi-powerwalker-plus -s
+
+logs: ## 📜 Logs Powerwalker+ container
+	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)📜 Logs for PowerMaster+ Docker container...$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
+	@ID=$$(docker ps -f name=powermaster |tail -1 |colrm 12) && docker logs $$ID
 ###############################################################################
 # End Of File                                                                 #
 ###############################################################################
