@@ -36,7 +36,13 @@ The Makefile is offering following entrypoints:
 
 PowerMaster+ Docker container setup is done issuing:
 
-```make all``` 
+```make all```
+
+or
+
+```make build```
+
+```make run```
 
 later you can browse to [http://localhost:3052/local](http://localhost:3052/local)
 
