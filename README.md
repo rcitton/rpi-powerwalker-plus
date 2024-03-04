@@ -44,7 +44,7 @@ or
 
 ```make build```
 
-```make run```
+```make setup```
 
 later you can browse to [http://localhost:3052/local](http://localhost:3052/local)
 
