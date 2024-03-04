@@ -18,11 +18,13 @@
 # -----------------------------------------------------------------
 
 
-# PowerMaster+ zip file
-#------------------------------
-PMASTERP_ZIP=pmp122_linux64.zip
+# PowerMaster+ URL zip file
+#--------------------------
+PMASTERP_URL="https://powerwalker.com/wp-content/uploads/2022/01/pmp122_linux64.zip"
 
 
+#------------------------------------------------------------------
+#------------------------------------------------------------------
 ###########################
 ## Colors definition     ##
 ###########################
@@ -38,29 +40,27 @@ COLOUR_END=\033[0m
 ###############################################################################
 #  MAIN CONTAINERS SECTION                                                    #
 ###############################################################################
-all: build setup
-
 help:
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| sed -n 's/^\(.*\): \(.*\)##\(.*\)/\1\3/p' \
 	| column -t  -s ' '
 
-build: ## --> Build Powerwalker+
+all: ## --> Build&Setup Powerwalker+ image&container
+	build 
+	setup
+
+build: ## --> Build Powerwalker+ image
 	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_YELLOW)🏗️ Build PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
-ifeq (,$(wildcard $(PMASTERP_ZIP)))
-	@echo "$(COLOUR_RED)Missing required $(PMASTERP_ZIP) $(COLOUR_END)"
-	exit 1
-endif
 	sudo mkdir -p /opt/pmasterp
 	docker build \
 	--force-rm=true \
-	--build-arg PMASTERP_ZIP=$(PMASTERP_ZIP) \
+	--build-arg PMASTERP_URL=$(PMASTERP_URL) \
 	--tag rpi-powerwalker-plus:latest \
 	-f Dockerfile .
 
-setup: ## --> Setup Powerwalker+
+setup: ## --> Setup Powerwalker+ container
 	@echo "$(COLOUR_BLUE)-----------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_BLUE)🔧 Setup PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_BLUE)-----------------------------------------$(COLOUR_END)"
@@ -80,7 +80,7 @@ setup: ## --> Setup Powerwalker+
 	@echo "$(COLOUR_GREEN)Connect http://localhost:3052/local $(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
 
-start: ## --> Start Powerwalker+
+start: ## --> Start Powerwalker+ container
 	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)🚀 Starting PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
@@ -91,19 +91,19 @@ start: ## --> Start Powerwalker+
 	@echo "$(COLOUR_GREEN)Connect http://localhost:3052/local $(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
 
-stop: ## --> Stop Powerwalker+
+stop: ## --> Stop Powerwalker+ container
 	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)🛑 Stopping PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
 	@docker stop powermaster
 
-connect: ## --> Connect Powerwalker+
+connect: ## --> Connect Powerwalker+ container
 	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)🖧 Connect PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
 	@docker exec -it powermaster /bin/bash
 
-cleanup: ## --> Cleanup Powerwalker+
+cleanup: ## --> Cleanup Powerwalker+ container&image
 	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)🧹 Cleanup PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
@@ -112,7 +112,7 @@ cleanup: ## --> Cleanup Powerwalker+
 	-docker rmi rpi-powerwalker-plus:latest
 	sudo rm -fr /opt/pmasterp
 
-imagedebug: ## --> Start Powerwalker+ (for debug porpuse)
+imagedebug: ## --> Start Powerwalker+ (debug-purpose)
 	@echo "$(COLOUR_RED)------------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_RED)🐞 Imagedebug PowerMaster+ Docker image...$(COLOUR_END)"
 	@echo "$(COLOUR_RED)------------------------------------------$(COLOUR_END)"

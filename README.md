@@ -1,24 +1,8 @@
 # PowerMaster+ Docker container
 
 Runs PowerMaster+ UPS management software from a Docker container. 
-Original idea from [Reddit](https://www.reddit.com/r/homelab/comments/13pnjnm/powerwalker_ups_powermaster_software_in_docker/).
+Original idea from [Reddit](https://www.reddit.com/r/homelab/comments/13pnjnm/powerwalker_ups_powermaster_software_in_docker/) and Fredrik Jönsson (see https://github.com/fjollberg/rpi-powerwalker-plus)
 
-## Failed spectacularly to run on Raspberry Pi
-
-This project failed spectacularly to run on a Raspberry Pi which
-was my original intention.
-The first issue is that the bundled JRE does not support the arm64
-architecture. I guess I should have seen that in advance.
-
-But in addition there are other binaries in the package. I've made
-an attempt to provide an arm64 jre from unstable, and the webapp
-starts with it, but the libppbedrvc.so is also necessary, to
-talk to the actual device I presume.
-
-So, end of the road.
-
-It *does* run on the target architecture x86-64, and can attach
-to the USB device if run with privileged flag set.
 
 ## PowerMaster+
 
@@ -31,22 +15,36 @@ hosts which listens to UPS events "Local" broadcasts.
 
 This container provides the "Local" service.
 
-## Building
+## Makefile Usage
 
-```docker build . --tag rpi-powerwalker-plus:latest```
+Before to start check and in case change the Makefile entry:
 
-## Running
+    PMASTERP_URL="https://powerwalker.com/wp-content/uploads/2022/01/pmp122_linux64.zip"
 
-```docker run --name powermaster -p 3052:3052 -p 3052:3052/udp -p 53568:53568/udp -p 162:162/udp -p 53566:53566/udp -v /opt/pmasterp:/opt/pmasterp/data --privileged rpi-powerwalker-plus:latest```
+The Makefile is offering following entrypoints:
 
-While it is possible to redirect ports to other port numbers in docker, the
-web interface will break if changed from 3025 due to links being hardcoded.
+    all         -->  Build&Setup  Powerwalker+  image&container
+    build       -->  Build        Powerwalker+  image
+    setup       -->  Setup        Powerwalker+  container
+    start       -->  Start        Powerwalker+  container
+    stop        -->  Stop         Powerwalker+  container
+    connect     -->  Connect      Powerwalker+  container
+    cleanup     -->  Cleanup      Powerwalker+  container&image
+    imagedebug  -->  Start        Powerwalker+  (debug-purpose)
+
+## Setup and usage
+
+PowerMaster+ Docker container setup is done issuing:
+
+```make all``` 
+
+later you can browse to [http://localhost:3052/local](http://localhost:3052/local)
 
 ## "Development" and Testing
 
 ### Connecting to the container
 
-```docker exec -it powermaster /bin/bash```
+```make connect```
 
 ### Running the service manually.
 

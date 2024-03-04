@@ -23,7 +23,8 @@ FROM debian:bullseye-slim
 #
 # Argument Variables
 # ---------------------
-ARG PMASTERP_ZIP
+ARG PMASTERP_URL
+ENV DEBIAN_FRONTEND noninteractive
 
 
 # Maintainer
@@ -47,12 +48,16 @@ WORKDIR /opt/pmasterp
 
 # Install dependencies
 #---------------------
-RUN apt update && apt install -y apt-utils unzip procps libusb-1.0-0 usbutils
+RUN apt update && apt install -y apt-utils curl unzip procps libusb-1.0-0 usbutils
+
+
+# Download PowerMaster
+#---------------------
+RUN curl -s $PMASTERP_URL --output pmasterp_linux64.zip 
 
 
 # Add files from repository
 #--------------------------
-COPY "$PMASTERP_ZIP" ./pmasterp_linux64.zip
 COPY response.varfile .
 COPY start.sh .
 
