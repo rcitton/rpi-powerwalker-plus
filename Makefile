@@ -116,9 +116,9 @@ stop: ## 🛑 Stop Powerwalker+ container
 	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
 	@docker stop powermaster
 
-imagedebug: ## 🐞 Start Powerwalker+ (debug-purpose)
+debug: ## 🐞 Debug Powerwalker+ (debug-purpose)
 	@echo "$(COLOUR_RED)------------------------------------------$(COLOUR_END)"
-	@echo "$(COLOUR_RED)🐞 Imagedebug PowerMaster+ Docker image...$(COLOUR_END)"
+	@echo "$(COLOUR_RED)🐞 Debug PowerMaster+ Docker image...$(COLOUR_END)"
 	@echo "$(COLOUR_RED)------------------------------------------$(COLOUR_END)"
 	docker run -it --entrypoint /bin/bash rpi-powerwalker-plus -s
 
