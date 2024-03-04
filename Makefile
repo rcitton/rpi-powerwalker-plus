@@ -45,9 +45,7 @@ help:
 	| sed -n 's/^\(.*\): \(.*\)##\(.*\)/\1\3/p' \
 	| column -t  -s ' '
 
-all: ## --> Build&Setup Powerwalker+ image&container
-	build 
-	setup
+all: build setup
 
 build: ## --> Build Powerwalker+ image
 	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
