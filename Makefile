@@ -98,6 +98,7 @@ setup: ## 🔧 Setup Powerwalker+ container
 	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)Connect http://localhost:3052/local $(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
+	@xdg-open http://localhost:3052/local > /dev/null 2>&1
 
 start: ## 🚀 Start Powerwalker+ container
 	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
@@ -109,6 +110,7 @@ start: ## 🚀 Start Powerwalker+ container
 	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)Connect http://localhost:3052/local $(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
+	@xdg-open http://localhost:3052/local > /dev/null 2>&1
 
 status: ## 🔎 Status Powerwalker+ container
 	@echo "$(COLOUR_GREEN)--------------------------------------------$(COLOUR_END)"
