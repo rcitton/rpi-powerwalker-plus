@@ -92,7 +92,9 @@ setup: ## 🔧 Setup Powerwalker+ container
 	-p 162:162/udp \
 	-p 53566:53566/udp \
 	-v /opt/pmasterp:/opt/pmasterp/data \
-	--privileged rpi-powerwalker-plus:latest
+	--restart always \
+	--privileged \
+	rpi-powerwalker-plus:latest
 	@echo "Setup in progress, please wait..."
 	@sleep 20
 	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
