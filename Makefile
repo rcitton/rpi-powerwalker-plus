@@ -46,12 +46,24 @@ help:
 	| column -t  -s ' '
 
 all: build setup ## ✅ Build&Setup Powerwalker+
+all4me: build4me setup4me ## ✅ Build&Setup Powerwalker+ for-my-env
 
 build: ## 🏗️ ️Build Powerwalker+ image&container
 	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_YELLOW)🏗️ Build PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
 	sudo mkdir -p /opt/pmasterp
+	docker build \
+	--force-rm=true \
+	--build-arg PMASTERP_URL=$(PMASTERP_URL) \
+	--tag rpi-powerwalker-plus:latest \
+	-f Dockerfile .
+
+build4me: ## 🏗️ ️Build Powerwalker+ image&container for-my-env
+	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
+	@echo "$(COLOUR_YELLOW)🏗️ Build PowerMaster+ Docker container...$(COLOUR_END)"
+	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
+	sudo mkdir -p /home/docker/pmasterp
 	docker build \
 	--force-rm=true \
 	--build-arg PMASTERP_URL=$(PMASTERP_URL) \
@@ -79,6 +91,21 @@ cleanup: ## 🧹 Cleanup Powerwalker+ container&image
 	@-docker rmi rpi-powerwalker-plus:latest
 	@sudo rm -fr /opt/pmasterp
 
+cleanup4me: ## 🧹 Cleanup Powerwalker+ container&image for-my-env
+	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)🧹 Cleanup PowerMaster+ Docker container...$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)-------------------------------------------$(COLOUR_END)"
+	@read -p "Are you sure? [y/N] " ans && ans=$${ans:-N} ; \
+    if [ $${ans} = y ] || [ $${ans} = Y ]; then \
+        printf "" ; \
+    else \
+        exit 1 ; \
+    fi
+	@-docker stop powermaster
+	@-docker rm powermaster
+	@-docker rmi rpi-powerwalker-plus:latest
+	@sudo rm -fr /home/docker/pmasterp
+
 setup: ## 🔧 Setup Powerwalker+ container
 	@echo "$(COLOUR_BLUE)-----------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_BLUE)🔧 Setup PowerMaster+ Docker container...$(COLOUR_END)"
@@ -96,7 +123,31 @@ setup: ## 🔧 Setup Powerwalker+ container
 	--privileged \
 	rpi-powerwalker-plus:latest
 	@echo "Setup in progress, please wait..."
-	@sleep 20
+	@sleep 60
+	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)Connect http://localhost:3052/local $(COLOUR_END)"
+	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
+	@xdg-open http://localhost:3052/local > /dev/null 2>&1
+
+setup4me: ## 🔧 Setup Powerwalker+ container for-my-env
+	@echo "$(COLOUR_BLUE)-----------------------------------------$(COLOUR_END)"
+	@echo "$(COLOUR_BLUE)🔧 Setup PowerMaster+ Docker container...$(COLOUR_END)"
+	@echo "$(COLOUR_BLUE)-----------------------------------------$(COLOUR_END)"
+	docker run --detach \
+	--name powermaster \
+	--hostname pmasterp \
+	-p 3052:3052 \
+	-p 3052:3052/udp \
+	-p 53568:53568/udp \
+	-p 162:162/udp \
+	-p 53566:53566/udp \
+	-v /home/docker/pmasterp:/opt/pmasterp/data \
+    --label com.centurylinklabs.watchtower.enable=false \
+	--restart always \
+	--privileged \
+	rpi-powerwalker-plus:latest
+	@echo "Setup in progress, please wait..."
+	@sleep 60
 	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)Connect http://localhost:3052/local $(COLOUR_END)"
 	@echo "$(COLOUR_GREEN)------------------------------------$(COLOUR_END)"
