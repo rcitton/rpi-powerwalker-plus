@@ -17,7 +17,7 @@ This container provides the "Local" service.
 
 ## Makefile Usage
 
-Before to start check and in case change the Makefile entry:
+Before to start check and in case change the "env.mk" entry:
 
     PMASTERP_URL="https://powerwalker.com/wp-content/uploads/2022/01/pmp122_linux64.zip"
 
