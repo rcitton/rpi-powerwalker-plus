@@ -53,7 +53,7 @@ RUN apt update && apt install -y apt-utils curl unzip procps libusb-1.0-0 usbuti
 
 # Download PowerMaster
 #---------------------
-RUN curl -L -O $PMASTERP_URL --output pmasterp_linux64.zip 
+RUN curl -L --output pmasterp_linux64.zip $PMASTERP_URL
 
 
 # Add files from repository
