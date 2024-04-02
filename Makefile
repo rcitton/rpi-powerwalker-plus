@@ -44,24 +44,12 @@ help:
 	| column -t  -s ' '
 
 all: build setup ## ✅ Build&Setup Powerwalker+
-all4me: build4me setup4me ## ✅ Build&Setup Powerwalker+ for-my-env
+all4me: build setup4me ## ✅ Build&Setup Powerwalker+ for-my-env
 
 build: ## 🏗️ ️Build Powerwalker+ image&container
 	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_YELLOW)🏗️ Build PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
-	sudo mkdir -p /opt/pmasterp
-	docker build \
-	--force-rm=true \
-	--build-arg PMASTERP_URL=$(PMASTERP_URL) \
-	--tag rpi-powerwalker-plus:latest \
-	-f Dockerfile .
-
-build4me: ## 🏗️ ️Build Powerwalker+ image&container for-my-env
-	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
-	@echo "$(COLOUR_YELLOW)🏗️ Build PowerMaster+ Docker container...$(COLOUR_END)"
-	@echo "$(COLOUR_YELLOW)-----------------------------------------$(COLOUR_END)"
-	sudo mkdir -p /home/docker/pmasterp
 	docker build \
 	--force-rm=true \
 	--build-arg PMASTERP_URL=$(PMASTERP_URL) \
@@ -108,6 +96,7 @@ setup: ## 🔧 Setup Powerwalker+ container
 	@echo "$(COLOUR_BLUE)-----------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_BLUE)🔧 Setup PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_BLUE)-----------------------------------------$(COLOUR_END)"
+	sudo mkdir -p /opt/pmasterp
 	docker run --detach \
 	--name powermaster \
 	--hostname pmasterp \
@@ -131,6 +120,7 @@ setup4me: ## 🔧 Setup Powerwalker+ container for-my-env
 	@echo "$(COLOUR_BLUE)-----------------------------------------$(COLOUR_END)"
 	@echo "$(COLOUR_BLUE)🔧 Setup PowerMaster+ Docker container...$(COLOUR_END)"
 	@echo "$(COLOUR_BLUE)-----------------------------------------$(COLOUR_END)"
+	sudo mkdir -p /home/docker/pmasterp
 	docker run --detach \
 	--name powermaster \
 	--hostname pmasterp \
@@ -140,7 +130,7 @@ setup4me: ## 🔧 Setup Powerwalker+ container for-my-env
 	-p 162:162/udp \
 	-p 53566:53566/udp \
 	-v /home/docker/pmasterp:/opt/pmasterp/data \
-    --label com.centurylinklabs.watchtower.enable=false \
+	--label com.centurylinklabs.watchtower.enable=false \
 	--restart always \
 	--privileged \
 	rpi-powerwalker-plus:latest
